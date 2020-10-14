@@ -7,7 +7,17 @@ module.exports = {
       return data.pokemon;
     },
     Pokemon: (parent, args) => {
-      return data.pokemon.find((pokemon) => pokemon.name === args.name);
-   },
+      console.log(args.input.name);
+      if (args.input.id) {
+        return data.pokemon.find((pokemon) => pokemon.id === args.input.id);
+      }
+      return data.pokemon.find((pokemon) => pokemon.name === args.input.name);
+    },
+    Type: (parent, args) => {
+      console.log(args);
+      return data.pokemon.filter((pokemon) =>
+        pokemon.types.includes(args.name)
+      );
+    },
   },
 };

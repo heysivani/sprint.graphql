@@ -37,7 +37,7 @@ const typeDefs = gql`
 
   type Pokemon {
     id: String
-    name: String!
+    name: String
     classification: String
     types: [String]
     resistant: [String]
@@ -52,9 +52,16 @@ const typeDefs = gql`
     maxHP: Int
     attacks: attackTypes
   }
+
+  input pokemonInput {
+    name: String
+    id: String
+  }
+
   type Query {
     Pokemons: [Pokemon]
-    Pokemon(name: String!): Pokemon
+    Pokemon(input: pokemonInput): Pokemon
+    Type(name: String): [Pokemon]
   }
 `;
 
