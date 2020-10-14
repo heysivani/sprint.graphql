@@ -32,4 +32,37 @@ module.exports = {
       });
     },
   },
+  Mutation: {
+    AddPokemon: (parent, args) => {
+      data.pokemon.push(args.input.name);
+      console.log(data.pokemon.length);
+      console.log("pokemon added");
+    },
+    DeletePokemon: (parent, args) => {
+      for (let i = 0; i < data.pokemon.length; i++) {
+        console.log(data.pokemon[i].name);
+        if (
+          data.pokemon[i].name.toLowerCase() === args.input.name.toLowerCase()
+        ) {
+          data.pokemon.splice(i, 1);
+          console.log("Pokemon deleted");
+          return;
+        }
+      }
+    },
+    ModifyPokemon: (parent, args) => {
+      for (let i = 0; i < data.pokemon.length; i++) {
+        if (args.input.newName) {
+          if (
+            data.pokemon[i].name.toLowerCase() === args.input.name.toLowerCase()
+          ) {
+            data.pokemon[i].name = args.input.newName;
+            if (args.input.newId) data.pokemon[i].id = args.input.newId;
+            console.log("Pokemon modified");
+            console.log(data.pokemon[data.pokemon.length - 1]);
+          }
+        }
+      }
+    },
+  },
 };
