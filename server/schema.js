@@ -53,11 +53,17 @@ const typeDefs = gql`
     attacks: attackTypes
   }
 
+  type Type {
+    name: String
+  }
+
   input pokemonInput {
     name: String
     id: String
     newName: String
     newId: String
+    newType: String
+    newAttack: String
   }
 
   type Query {
@@ -71,6 +77,12 @@ const typeDefs = gql`
     AddPokemon(input: pokemonInput): Pokemon
     DeletePokemon(input: pokemonInput): Pokemon
     ModifyPokemon(input: pokemonInput): Pokemon
+    AddType(input: pokemonInput): Pokemon
+    DeleteType(input: pokemonInput): Type
+    ModifyType(input: pokemonInput): Type
+    AddAttack(input: pokemonInput): Type
+    DeleteAttack(input: pokemonInput): Type
+    ModifyAttack(input: pokemonInput): Type
   }
 `;
 

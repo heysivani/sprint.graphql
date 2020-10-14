@@ -64,5 +64,65 @@ module.exports = {
         }
       }
     },
+    AddType: (parent, args) => {
+      if (!data.types.includes(args.input.name)) {
+        data.types.push(args.input.name);
+        console.log(data.types);
+        console.log("type added");
+      }
+    },
+    DeleteType: (parent, args) => {
+      for (let i = 0; i < data.types.length; i++) {
+        if (data.types[i] === args.input.name) {
+          data.types.splice(i, 1);
+          console.log("type deleted");
+          console.log(data.types);
+        }
+      }
+    },
+    ModifyType: (parent, args) => {
+      if (args.input.newType) {
+        for (let i = 0; i < data.types.length; i++) {
+          if (data.types[i] === args.input.name) {
+            data.types[i] = args.input.newType;
+            console.log("type changed");
+            console.log(data.types);
+          }
+        }
+      }
+    },
+    AddAttack: (parent, args) => {
+      for (let key in data.attacks) {
+        if (key === args.input.name) {
+          data.attacks[key].push({ name: args.input.newAttack });
+          console.log("Attack added");
+          console.log(data.attacks[key]);
+        }
+      }
+    },
+    DeleteAttack: (parent, args) => {
+      for (let key in data.attacks) {
+        for (let i = 0; i < data.attacks.length; i++) {
+          if (data.attacks[i] === args.input.name) {
+            data.attacks.splice(i, 1);
+            console.log("attack deleted");
+            console.log(data.attacks);
+          }
+        }
+      }
+    },
+    ModifyAttack: (parent, args) => {
+      if (args.input.newAttack) {
+        for (let key in data.attacks) {
+          for (let i = 0; i < data.attacks.length; i++) {
+            if (data.attacks[i] === args.input.name) {
+              data.attacks[i] = args.input.newAttack;
+              console.log("attack changed");
+              console.log(data.attacks);
+            }
+          }
+        }
+      }
+    },
   },
 };
