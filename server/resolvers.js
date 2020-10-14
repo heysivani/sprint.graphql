@@ -19,5 +19,17 @@ module.exports = {
         pokemon.types.includes(args.name)
       );
     },
+    Attack: (parent, args) => {
+      return data.pokemon.filter((pokemon) => {
+        for (let key in pokemon.attacks) {
+          for (let element of pokemon.attacks[key]) {
+            if (element.name === args.name) {
+              return true;
+            }
+            return false;
+          }
+        }
+      });
+    },
   },
 };

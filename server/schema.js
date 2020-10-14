@@ -62,6 +62,7 @@ const typeDefs = gql`
     Pokemons: [Pokemon]
     Pokemon(input: pokemonInput): Pokemon
     Type(name: String): [Pokemon]
+    Attack(name: String): [Pokemon]
   }
 `;
 
