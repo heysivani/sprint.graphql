@@ -7,23 +7,21 @@ module.exports = {
       return data.pokemon;
     },
     Pokemon: (parent, args) => {
-      console.log(args.input.name);
       if (args.input.id) {
         return data.pokemon.find((pokemon) => pokemon.id === args.input.id);
       }
       return data.pokemon.find((pokemon) => pokemon.name === args.input.name);
     },
     Type: (parent, args) => {
-      console.log(args);
       return data.pokemon.filter((pokemon) =>
-        pokemon.types.includes(args.name)
+        pokemon.types.includes(args.input.name)
       );
     },
     Attack: (parent, args) => {
       return data.pokemon.filter((pokemon) => {
         for (let key in pokemon.attacks) {
           for (let element of pokemon.attacks[key]) {
-            if (element.name === args.name) {
+            if (element.name === args.input.name) {
               return true;
             }
             return false;
@@ -34,19 +32,16 @@ module.exports = {
   },
   Mutation: {
     AddPokemon: (parent, args) => {
-      data.pokemon.push(args.input.name);
-      console.log(data.pokemon.length);
-      console.log("pokemon added");
+      data.pokemon.push({ name: args.input.name });
+      return `${args.input.name} added`;
     },
     DeletePokemon: (parent, args) => {
       for (let i = 0; i < data.pokemon.length; i++) {
-        console.log(data.pokemon[i].name);
         if (
           data.pokemon[i].name.toLowerCase() === args.input.name.toLowerCase()
         ) {
           data.pokemon.splice(i, 1);
-          console.log("Pokemon deleted");
-          return;
+          return `${args.input.name} deleted`;
         }
       }
     },
@@ -58,8 +53,7 @@ module.exports = {
           ) {
             data.pokemon[i].name = args.input.newName;
             if (args.input.newId) data.pokemon[i].id = args.input.newId;
-            console.log("Pokemon modified");
-            console.log(data.pokemon[data.pokemon.length - 1]);
+            return data.pokemon[i];
           }
         }
       }
@@ -67,59 +61,66 @@ module.exports = {
     AddType: (parent, args) => {
       if (!data.types.includes(args.input.name)) {
         data.types.push(args.input.name);
-        console.log(data.types);
-        console.log("type added");
+        return `${args.input.name} added to types`;
       }
     },
     DeleteType: (parent, args) => {
       for (let i = 0; i < data.types.length; i++) {
         if (data.types[i] === args.input.name) {
           data.types.splice(i, 1);
-          console.log("type deleted");
-          console.log(data.types);
+          return `${args.input.name} deleted from types`;
         }
       }
     },
     ModifyType: (parent, args) => {
-      if (args.input.newType) {
+      if (args.input.newName) {
         for (let i = 0; i < data.types.length; i++) {
           if (data.types[i] === args.input.name) {
-            data.types[i] = args.input.newType;
-            console.log("type changed");
-            console.log(data.types);
+            data.types[i] = args.input.newName;
+            return "Type modified";
           }
         }
       }
     },
     AddAttack: (parent, args) => {
       for (let key in data.attacks) {
-        if (key === args.input.name) {
-          data.attacks[key].push({ name: args.input.newAttack });
-          console.log("Attack added");
-          console.log(data.attacks[key]);
+        if (key === args.input.attackType) {
+          data.attacks[key].push({
+            name: args.input.name,
+            type: args.input.type,
+            damage: args.input.damage,
+          });
+          return `${args.input.name} added`;
         }
       }
     },
     DeleteAttack: (parent, args) => {
       for (let key in data.attacks) {
-        for (let i = 0; i < data.attacks.length; i++) {
-          if (data.attacks[i] === args.input.name) {
-            data.attacks.splice(i, 1);
-            console.log("attack deleted");
-            console.log(data.attacks);
+        for (let i = 0; i < data.attacks[key].length; i++) {
+          if (
+            data.attacks[key][i].name.toLowerCase() ===
+            args.input.name.toLowerCase()
+          ) {
+            data.attacks[key].splice(i, 1);
+            return `${args.input.name} deleted`;
           }
         }
       }
     },
     ModifyAttack: (parent, args) => {
-      if (args.input.newAttack) {
-        for (let key in data.attacks) {
-          for (let i = 0; i < data.attacks.length; i++) {
-            if (data.attacks[i] === args.input.name) {
-              data.attacks[i] = args.input.newAttack;
-              console.log("attack changed");
-              console.log(data.attacks);
+      for (let key in data.attacks) {
+        for (let i = 0; i < data.attacks[key].length; i++) {
+          if (data.attacks[key][i].name === args.input.name) {
+            if (args.input.newName) {
+              data.attacks[key][i].name = args.input.newName;
             }
+            if (args.input.type) {
+              data.attacks[key][i].type = args.input.type;
+            }
+            if (args.input.damage) {
+              data.attacks[key][i].damage = args.input.damage;
+            }
+            return `${args.input.name} modified`;
           }
         }
       }

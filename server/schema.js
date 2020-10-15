@@ -53,36 +53,33 @@ const typeDefs = gql`
     attacks: attackTypes
   }
 
-  type Type {
-    name: String
-  }
-
   input pokemonInput {
     name: String
     id: String
     newName: String
     newId: String
-    newType: String
-    newAttack: String
+    attackType: String
+    type: String
+    damage: Int
   }
 
   type Query {
     Pokemons: [Pokemon]
     Pokemon(input: pokemonInput): Pokemon
-    Type(name: String): [Pokemon]
-    Attack(name: String): [Pokemon]
+    Type(input: pokemonInput): [Pokemon]
+    Attack(input: pokemonInput): [Pokemon]
   }
 
   type Mutation {
-    AddPokemon(input: pokemonInput): Pokemon
-    DeletePokemon(input: pokemonInput): Pokemon
+    AddPokemon(input: pokemonInput): String
+    DeletePokemon(input: pokemonInput): String
     ModifyPokemon(input: pokemonInput): Pokemon
-    AddType(input: pokemonInput): Pokemon
-    DeleteType(input: pokemonInput): Type
-    ModifyType(input: pokemonInput): Type
-    AddAttack(input: pokemonInput): Type
-    DeleteAttack(input: pokemonInput): Type
-    ModifyAttack(input: pokemonInput): Type
+    AddType(input: pokemonInput): String
+    DeleteType(input: pokemonInput): String
+    ModifyType(input: pokemonInput): String
+    AddAttack(input: pokemonInput): String
+    DeleteAttack(input: pokemonInput): String
+    ModifyAttack(input: pokemonInput): String
   }
 `;
 
